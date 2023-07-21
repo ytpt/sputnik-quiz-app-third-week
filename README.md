@@ -1,4 +1,4 @@
-# sputnik-quiz-second-week
+# sputnik-quiz-third-week
 The quiz app starts with the button "Регистрация".\
 After the registration you need to login.\
 After the login the quiz starts.
@@ -6,42 +6,46 @@ After the login the quiz starts.
 # Getting Started
 
 To clone quiz run in terminal: 
-### `git clone https://github.com/ytpt/sputnik-quiz-second-week.git`
+### `git clone https://github.com/ytpt/sputnik-quiz-third-week.git`
 
 
 ## Install libraries
 
 THE PROJECT HAS TWO PACKAGE.JSON FILES
 
+To install libraries for frontend connection run in new terminal:
+### `npm install`
+
 To install libraries for backend connection run in terminal:
 ### `cd server`
 ### `npm install`
 
-To install libraries for frontend connection run in new terminal:
-### `npm install`
-
 
 ## .env file
-The project has .env file in server folder
 
-Before you start the quiz add your:
-- backend port №
-- secret key for access
-- secret key for refresh
-- backend localhost
-- frontend localhost
+THE PROJECT HAS .ENV FILE IN SERVER FOLDER
 
-You may use examples giving in .env file
+If you don't have .env file in your clone project, create it.
+
+Before start add info to .env file.\
+You may use examples giving here:
+
+`PORT=5000`\
+`DB_URL=mongodb+srv://annarchive888:12345@cluster0.ozuv0bm.mongodb.net/?retryWrites=true&w=majority`\
+`JWT_ACCESS_SECRET=jwt-access-secret-for-quiz`\
+`JWT_REFRESH_SECRET=jwt-access-secret-for-quiz`\
+`API_URL=http://localhost:5000`\
+`CLIENT_URL=http://localhost:3001`
 
 
 ## Run project
 
-For backend connection run in terminal:
+To run backend server run in terminal:
 ### `cd server`
 ### `npm run dev`
 You will see "Server started on PORT = 5000"
 
-For frontend connection run in new terminal:
+To run frontend run in new terminal:
 ### `npm run start`
 You will see "Project is running at:
 Loopback: http://localhost:3001/"
