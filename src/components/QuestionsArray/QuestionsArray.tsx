@@ -7,20 +7,18 @@ import { shuffleArray } from "../../utils";
 import PaginationButton from "../PaginationButton/PaginationButton";
 import Results from "../Results/Results";
 import LogoutButton from "../LogoutButton/LogoutButton";
-import { IQuestion } from "../../redux/reducers/questionsReducer";
 import { handleCheckboxClicked, handleErrorMessage, handleScoreShown, handleStartQuiz, handleTimeExpired, handleTimerActive, resetUserScore } from "../../redux/actions";
 
-type Props = {
-    newQuestions: IQuestion[];
-}
+
 
 type SelectedAnswers = {
     [questionNumber: number]: string | null;
 }
 
-const QuestionsArray: FC<Props> = ({ newQuestions}) => {
+const QuestionsArray: FC = () => {
 
     const dispatch = useDispatch();
+    const newQuestions = useSelector((state: RootState) => state.questions);
     const userScore = useSelector((state: RootState) => state.userScore.user_score);
     const userAuthStatus = useSelector((state: RootState) => state.userStatus.user_auth);
     const isGameStarted = useSelector((state: RootState) => state.isGameStarted.is_game_started);

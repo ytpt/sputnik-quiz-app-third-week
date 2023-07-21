@@ -12,7 +12,6 @@ import { handleShowForm, handleUserReg, handleSetUser, handleUserAuth, handleErr
 const App: FC = () => {
 
     const dispatch = useDispatch();
-    const newQuestions = useSelector((state: RootState) => state.questions);
     const userAuthStatus = useSelector((state: RootState) => state.userStatus.user_auth);
     const showForm = useSelector((state: RootState) => state.showForm.showForm);
     const isUserReg = useSelector((state: RootState) => state.userStatus.user_reg);
@@ -45,7 +44,7 @@ const App: FC = () => {
                 <h1>Квиз</h1>
                 {
                     userAuthStatus
-                        ? <QuestionsArray newQuestions={ newQuestions } />
+                        ? <QuestionsArray />
                         : showForm || isUserReg
                             ? <LoginForm />
                             : <Button onClick={ openForm }>
