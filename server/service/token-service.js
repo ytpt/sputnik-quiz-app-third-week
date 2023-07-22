@@ -11,14 +11,6 @@ class TokenService {
         }
     }
 
-    validateAccessToken(token) {
-        try {
-            return jwt.verify(token, process.env.JWT_ACCESS_SECRET);
-        } catch (e) {
-            return null;
-        }
-    }
-
     validateRefreshToken(token) {
         try {
             return jwt.verify(token, process.env.JWT_REFRESH_SECRET);
