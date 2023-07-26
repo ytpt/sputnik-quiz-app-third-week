@@ -122,9 +122,9 @@ const QuestionsArray: FC = () => {
             {
                 isGameStarted && !activeTimer
                     && <Results
-                            userScore={ userScore }
-                            totalQuestionsCount={ totalQuestionsCount }
-                            startNewGame={ startNewGame }
+                        userScore={ userScore }
+                        totalQuestionsCount={ totalQuestionsCount }
+                        startNewGame={ startNewGame }
                     />
             }
             {/*Logout*/}
