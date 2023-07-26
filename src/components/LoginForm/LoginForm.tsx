@@ -10,6 +10,11 @@ import { handleErrorMessage, handleLoaderActive, handleSetUser, handleUserAuth, 
 
 type Props = {};
 
+type FormData = {
+    email: string;
+    password: string;
+};
+
 const LoginForm: FC<Props> = () => {
 
     const dispatch = useDispatch();
@@ -18,8 +23,7 @@ const LoginForm: FC<Props> = () => {
     const loader = useSelector((state: RootState) => state.isLoaderActive.is_loader_active);
 
     const [form] = Form.useForm<FormInstance>();
-    const [email, setEmail] = useState<string>("");
-    const [password, setPassword] = useState<string>("");
+    const [formData, setFormData] = useState<FormData | null>(null);
 
     const setUserAuth = (isRegistration) => {
         dispatch(isRegistration ? handleUserReg(true) : handleUserAuth(true))
@@ -65,6 +69,14 @@ const LoginForm: FC<Props> = () => {
             : await performAuth(values.email, values.password, true)
     }
 
+    const onInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevState) => ({
+            ...prevState,
+            [name]: value,
+        }));
+    };
+
     return (
         <Form
             form={ form }
@@ -87,8 +99,8 @@ const LoginForm: FC<Props> = () => {
             >
                 <Input
                     type="text"
-                    value={ email }
-                    onChange={ e => setEmail(e.target.value) }
+                    value={ formData ? formData.email : "" }
+                    onChange={ onInputChange }
                 />
             </Form.Item>
             <Form.Item
@@ -103,8 +115,8 @@ const LoginForm: FC<Props> = () => {
             >
                 <Input.Password
                     type="password"
-                    value={ password }
-                    onChange={ e => setPassword(e.target.value) }
+                    value={ formData ? formData.password : "" }
+                    onChange={ onInputChange }
                 />
             </Form.Item>
             <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
