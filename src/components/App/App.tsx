@@ -1,14 +1,15 @@
-import React, { useEffect, FC } from "react";
+import React, { useEffect, FC, lazy, Suspense } from "react";
 import "antd/dist/reset.css";
 import { Alert, Button } from "antd";
 import { GlobalStyle, Wrapper } from "./App.styles";
 import { useDispatch, useSelector} from "react-redux";
 import { RootState } from "../../redux/store";
-import QuestionsArray from "../QuestionsArray/QuestionsArray";
 import LoginForm from "../LoginForm/LoginForm";
 import AuthService from "../../services/AuthService";
 import Cookies from "js-cookie";
 import { handleShowForm, handleUserReg, handleSetUser, handleUserAuth, handleErrorMessage, handleLoaderActive } from "../../redux/actions";
+
+const QuestionsArrayLazy = lazy(() => import("../QuestionsArray/QuestionsArray"));
 
 const App: FC = () => {
 
@@ -45,7 +46,9 @@ const App: FC = () => {
                 <h1>Квиз</h1>
                 {
                     userAuthStatus
-                        ? <QuestionsArray />
+                        ? <Suspense fallback={ <h2>Загрузка...</h2> }>
+                            <QuestionsArrayLazy />
+                        </Suspense>
                         : showForm || isUserReg
                             ? <LoginForm />
                             : <Button onClick={ openForm }>
