@@ -20,6 +20,26 @@ const LoginForm: FC<Props> = () => {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
+    const setUserAuth = (isRegistration) => {
+        dispatch(isRegistration ? handleUserReg(true) : handleUserAuth(true))
+    }
+
+    const setSuccessMessage = (isRegistration, response) => {
+        dispatch(
+            isRegistration
+                ? handleErrorMessage(`Пользователь ${response.data.user.email} зарегистрирован`)
+                : handleErrorMessage(`Вы вошли как ${response.data.user.email}`)
+        )
+    }
+
+    const setErrorMessage = (isRegistration) => {
+        dispatch(
+            isRegistration
+                ? handleErrorMessage(`Ошибка регистрации`)
+                : handleErrorMessage(`Ошибка авторизации`)
+        )
+    }
+
     const performAuth = async (email: string, password: string, isRegistration: boolean) => {
         dispatch(handleLoaderActive(true));
         try {
@@ -28,19 +48,11 @@ const LoginForm: FC<Props> = () => {
                 : await AuthService.login(email, password);
             localStorage.setItem('token', response.data.accessToken);
             localStorage.setItem('login', response.data.user.email);
-            dispatch(isRegistration ? handleUserReg(true) : handleUserAuth(true))
-            dispatch(
-                isRegistration
-                    ? handleErrorMessage(`Пользователь ${response.data.user.email} зарегистрирован`)
-                    : handleErrorMessage(`Вы вошли как ${response.data.user.email}`)
-            )
+            setUserAuth(isRegistration);
+            setSuccessMessage(isRegistration, response);
             dispatch(handleSetUser(response.data.user));
         } catch (e) {
-            dispatch(
-                isRegistration
-                    ? handleErrorMessage(`Ошибка регистрации`)
-                    : handleErrorMessage(`Ошибка авторизации`)
-            )
+            setErrorMessage(isRegistration);
         } finally {
             dispatch(handleLoaderActive(false));
         }
