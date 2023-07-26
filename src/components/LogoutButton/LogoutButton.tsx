@@ -5,6 +5,7 @@ import { Button } from "antd";
 import AuthService from "../../services/AuthService";
 import { IUser } from "../../models/response/IUser";
 import { RootState } from "../../redux/store";
+import Cookies from "js-cookie";
 
 type Props = {
     value: string;
@@ -22,8 +23,8 @@ const LogoutButton: FC<Props> = ({
     const logout = async function() {
         try {
             await AuthService.logout();
-            localStorage.removeItem("token");
-            localStorage.removeItem("login");
+            Cookies.set("token", "");
+            Cookies.set("login", "");
             dispatch(handleUserAuth(false));
             dispatch(handleSetUser({} as IUser));
             dispatch(handleTimerActive(false));

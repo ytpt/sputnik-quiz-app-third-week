@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import FormButton from "../FormButton/FormButton";
 import { FormInstance } from "antd";
+import Cookies from "js-cookie";
 import { handleErrorMessage, handleLoaderActive, handleSetUser, handleUserAuth, handleUserReg } from "../../redux/actions";
 
 type Props = {};
@@ -46,8 +47,8 @@ const LoginForm: FC<Props> = () => {
             const response = isRegistration
                 ? await AuthService.registration(email, password)
                 : await AuthService.login(email, password);
-            localStorage.setItem('token', response.data.accessToken);
-            localStorage.setItem('login', response.data.user.email);
+            Cookies.set("token", response.data.accessToken);
+            Cookies.set("login", response.data.user.email);
             setUserAuth(isRegistration);
             setSuccessMessage(isRegistration, response);
             dispatch(handleSetUser(response.data.user));

@@ -7,6 +7,7 @@ import { RootState } from "../../redux/store";
 import QuestionsArray from "../QuestionsArray/QuestionsArray";
 import LoginForm from "../LoginForm/LoginForm";
 import AuthService from "../../services/AuthService";
+import Cookies from "js-cookie";
 import { handleShowForm, handleUserReg, handleSetUser, handleUserAuth, handleErrorMessage, handleLoaderActive } from "../../redux/actions";
 
 const App: FC = () => {
@@ -18,7 +19,7 @@ const App: FC = () => {
     const loader = useSelector((state: RootState) => state.isLoaderActive.is_loader_active);
 
     useEffect(() => {
-        localStorage.getItem("token") && checkAuth();
+        Cookies.get("token") && checkAuth();
     }, []);
 
     const checkAuth = async () => {
