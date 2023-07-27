@@ -46,4 +46,4 @@ const ChkBox: FC<Props> = ({
     )
 }
 
-export default ChkBox;
+export default React.memo(ChkBox);

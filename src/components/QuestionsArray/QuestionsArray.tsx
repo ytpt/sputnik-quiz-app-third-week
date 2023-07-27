@@ -1,4 +1,4 @@
-import React, { useEffect, useState, FC } from "react";
+import React, { useEffect, useState, FC, useMemo } from "react";
 import { Timer } from "./QuestionsArray.styles";
 import QuestionCard from "../QuestionCard/QuestionCard";
 import { useDispatch, useSelector } from "react-redux";
@@ -53,15 +53,17 @@ const QuestionsArray: FC = () => {
     const handlePrevPage = () => setPage((prevPage) => prevPage - 1);
     const handleNextPage = () => setPage((nextPage) => nextPage + 1);
 
-    const shuffledQuestions = newQuestions
-        .slice(startIndex, endIndex)
-        .map((question) => ({
-            ...question,
-            answers: shuffleArray([
-                ...question.incorrect_answers,
-                question.correct_answer
-            ])
-        }));
+    const shuffledQuestions = useMemo(() => {
+        return newQuestions
+            .slice(startIndex, endIndex)
+            .map((question) => ({
+                ...question,
+                answers: shuffleArray([
+                    ...question.incorrect_answers,
+                    question.correct_answer
+                ])
+            }));
+    }, [newQuestions, startIndex, endIndex]);
 
    let interval: ReturnType<typeof setTimeout>;
 

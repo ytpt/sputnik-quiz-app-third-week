@@ -46,4 +46,4 @@ const QuestionCard: FC<Props> = ({
     )
 }
 
-export default QuestionCard;
+export default React.memo(QuestionCard);
