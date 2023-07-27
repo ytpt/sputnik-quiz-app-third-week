@@ -9,8 +9,6 @@ import Results from "../Results/Results";
 import LogoutButton from "../LogoutButton/LogoutButton";
 import { handleCheckboxClicked, handleErrorMessage, handleScoreShown, handleStartQuiz, handleTimeExpired, handleTimerActive, resetUserScore } from "../../redux/actions";
 
-
-
 type SelectedAnswers = {
     [questionNumber: number]: string | null;
 }
@@ -135,4 +133,4 @@ const QuestionsArray: FC = () => {
     )
 };
 
-export default QuestionsArray;
+export default React.memo(QuestionsArray);
