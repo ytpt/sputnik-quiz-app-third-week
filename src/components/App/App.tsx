@@ -46,14 +46,14 @@ const App: FC = () => {
                 <h1>Квиз</h1>
                 {
                     userAuthStatus
-                        ? <Suspense fallback={ <Alert message="Загрузка..." /> }>
+                        ? <Suspense fallback={ <h2>Загрузка...</h2> }>
                             <QuestionsArrayLazy />
                         </Suspense>
                         : showForm || isUserReg
-                            ? <LoginForm />
-                            : <Button onClick={ openForm }>
-                                Регистрация
-                            </Button>
+                        ? <LoginForm />
+                        : <Button onClick={ openForm }>
+                            Регистрация
+                        </Button>
                 }
                 { loader && <Alert message="Загрузка..." /> }
             </Wrapper>
