@@ -1,6 +1,9 @@
-import { IS_GAME_STARTED, IS_CHECKBOX_VALID, IS_CHECKBOX_CLICKED, ADD_USER_SCORE,
+import {
+    IS_GAME_STARTED, IS_CHECKBOX_VALID, IS_CHECKBOX_CLICKED, ADD_USER_SCORE,
     RESET_USER_SCORE, IS_USER_REG, IS_USER_AUTH, SET_USER, SHOW_FORM,
-    IS_TIMER_ACTIVE, IS_SCORE_SHOWN, IS_TIME_EXPIRED, ERROR_MESSAGE, IS_LOADER_ACTIVE } from "./actionsTypes";
+    IS_TIMER_ACTIVE, IS_SCORE_SHOWN, IS_TIME_EXPIRED, ERROR_MESSAGE, IS_LOADER_ACTIVE,
+    SET_NEXT_PAGE, SET_PREV_PAGE,
+} from "./actionsTypes";
 import { IUser } from "../models/response/IUser";
 
 export const addUserScore = (payload: number) => ({
@@ -70,5 +73,15 @@ export const handleErrorMessage = (payload: string) => ({
 
 export const handleLoaderActive = (payload: boolean) => ({
     type: IS_LOADER_ACTIVE,
+    payload: payload,
+});
+
+export const handleNextPage = (payload: number) => ({
+    type: SET_NEXT_PAGE,
+    payload: payload,
+});
+
+export const handlePrevPage = (payload: number) => ({
+    type: SET_PREV_PAGE,
     payload: payload,
 });
