@@ -117,15 +117,15 @@ export const initialState: IQuestions = [
     }
 ];
 
-const questionReducer = (state: IQuestions = initialState, action: IAction) => {
+const questionReducer = (state: IQuestions = shuffleArray(initialState), action: IAction) => {
     switch(action.type) {
         default:
             return state.map((question: IQuestion) => ({
                 ...question,
-                answers: shuffleArray([
+                answers:[
                     ...question.incorrect_answers,
                     question.correct_answer,
-                ]),
+                ],
             }));
     }
 }
