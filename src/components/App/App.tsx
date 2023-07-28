@@ -46,7 +46,7 @@ const App: FC = () => {
                 <h1>Квиз</h1>
                 {
                     userAuthStatus
-                        ? <Suspense fallback={ <h2>Загрузка...</h2> }>
+                        ? <Suspense fallback={ <Alert message="Загрузка..." /> }>
                             <QuestionsArrayLazy />
                         </Suspense>
                         : showForm || isUserReg

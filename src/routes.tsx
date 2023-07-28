@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import NotFoundPage from "./components/NotFoundPage/NotFoundPage";
+import { Alert } from "antd";
 
 const AppLazy = lazy(() => import("./components/App/App"));
 
@@ -9,11 +10,11 @@ const RoutesConfig = () => {
         <>
             <Routes >
                 <Route path="/" element={
-                    <Suspense fallback={<h2>Загрузка...</h2>}>
+                    <Suspense fallback={ <Alert message="Загрузка..." /> }>
                         <AppLazy />
                     </Suspense>
                 } />
-                <Route path="*" element={<NotFoundPage />} />
+                <Route path="*" element={ <NotFoundPage /> } />
             </Routes>
         </>
     );
