@@ -7,7 +7,7 @@ import { shuffleArray } from "../../utils";
 import PaginationButton from "../PaginationButton/PaginationButton";
 import Results from "../Results/Results";
 import LogoutButton from "../LogoutButton/LogoutButton";
-import { handleCheckboxClicked, handleErrorMessage, handleScoreShown, handleStartQuiz, handleTimeExpired, handleTimerActive, resetUserScore } from "../../redux/actions";
+import { handleCheckboxClicked, handleErrorMessage, handleScoreShown, handleStartQuiz, handleTimeExpired, handleTimerActive, resetUserScore, handleNextPage, handlePrevPage } from "../../redux/actions";
 
 type SelectedAnswers = {
     [questionNumber: number]: string | null;
@@ -22,12 +22,12 @@ const QuestionsArray: FC = () => {
     const isGameStarted = useSelector((state: RootState) => state.isGameStarted.is_game_started);
     const activeTimer = useSelector((state: RootState) => state.isTimerActive.is_timer_active);
     const isScoreShown = useSelector((state: RootState) => state.isScoreShown.is_score_shown);
+    const page = useSelector((state: RootState) => state.pageUpdate.page);
 
     const [selectedAnswers, setSelectedAnswers] = useState<SelectedAnswers>({});
     const [remainingTime, setRemainingTime] = useState<number>(30);
 
     const totalQuestionsCount = newQuestions.length;
-    const [page, setPage] = useState(1);
     const limit = 5;
     const startIndex = (page - 1) * limit;
     const endIndex = startIndex + limit;
@@ -44,12 +44,12 @@ const QuestionsArray: FC = () => {
         dispatch(handleTimerActive(true));
         dispatch(handleScoreShown(false));
         dispatch(handleTimeExpired(false));
-        dispatch((handleErrorMessage("")));
+        dispatch(handleErrorMessage(""));
         timer();
     }
 
-    const handlePrevPage = () => setPage((prevPage) => prevPage - 1);
-    const handleNextPage = () => setPage((nextPage) => nextPage + 1);
+    const prevPage = () => dispatch(handlePrevPage(1));
+    const nextPage = () => dispatch(handleNextPage(1));
 
     const shuffledQuestions = useMemo(() => {
         return newQuestions
@@ -63,26 +63,26 @@ const QuestionsArray: FC = () => {
             }));
     }, [newQuestions, startIndex, endIndex]);
 
-   let interval: ReturnType<typeof setTimeout>;
+    let interval: ReturnType<typeof setTimeout>;
 
-   const timer = (minutes: number = 0.5) => {
-       const initialSeconds = minutes * 60 || 0;
-       setRemainingTime(initialSeconds);
-       dispatch(handleTimerActive(true));
+    const timer = (minutes: number = 0.5) => {
+        const initialSeconds = minutes * 60 || 0;
+        setRemainingTime(initialSeconds);
+        dispatch(handleTimerActive(true));
 
-       interval = setInterval(() => {
-           setRemainingTime((prevTime) => {
-               if (prevTime <= 0) {
-                   clearInterval(interval);
-                   dispatch(handleTimerActive(false));
-                   dispatch(handleScoreShown(true));
-                   dispatch(handleTimeExpired(true));
-                   return 0;
-               }
-               return prevTime - 1;
-           });
-       }, 1000);
-   }
+        interval = setInterval(() => {
+            setRemainingTime((prevTime) => {
+                if (prevTime <= 0) {
+                    clearInterval(interval);
+                    dispatch(handleTimerActive(false));
+                    dispatch(handleScoreShown(true));
+                    dispatch(handleTimeExpired(true));
+                    return 0;
+                }
+                return prevTime - 1;
+            });
+        }, 1000);
+    }
 
     const handleSelectAnswer = (questionNumber: number, answer: string) => {
         setSelectedAnswers((prevSelectedAnswers) => ({
@@ -99,24 +99,24 @@ const QuestionsArray: FC = () => {
             {/*Questions*/}
             {
                 isGameStarted
-                    && shuffledQuestions.map((question, index) => (
-                        <QuestionCard
-                            key={ index }
-                            questionNumber={ index + startIndex }
-                            question={ question.question }
-                            answers={ [...question.incorrect_answers, question.correct_answer] }
-                            right={ question.correct_answer }
-                            selectedAnswer={ selectedAnswers[index + startIndex] || null }
-                            setSelectedAnswer={ (answer) => handleSelectAnswer(index + startIndex, answer) }
-                        />
-                    ))
+                && shuffledQuestions.map((question, index) => (
+                    <QuestionCard
+                        key={ index }
+                        questionNumber={ index + startIndex }
+                        question={ question.question }
+                        answers={ [...question.incorrect_answers, question.correct_answer] }
+                        right={ question.correct_answer }
+                        selectedAnswer={ selectedAnswers[index + startIndex] || null }
+                        setSelectedAnswer={ (answer) => handleSelectAnswer(index + startIndex, answer) }
+                    />
+                ))
             }
             {/*Pagination*/}
             {
                 isGameStarted && newQuestions.length > endIndex && !isScoreShown
-                    && <PaginationButton onClick={ handleNextPage } value="Следующая страница" />
+                    && <PaginationButton onClick={ nextPage } value="Следующая страница" />
                     || page > 1
-                        &&<PaginationButton onClick={ handlePrevPage } value="Предыдущая страница" />
+                        && <PaginationButton onClick={ prevPage } value="Предыдущая страница" />
             }
             {/*Results*/}
             {
