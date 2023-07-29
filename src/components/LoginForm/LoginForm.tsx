@@ -1,10 +1,9 @@
 import React, { useState, FC }  from "react";
-import { Form, Input, Alert } from "antd";
+import { Form, Input, Alert, FormInstance } from "antd";
 import AuthService from "../../services/AuthService";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import FormButton from "../FormButton/FormButton";
-import { FormInstance } from "antd";
 import Cookies from "js-cookie";
 import { handleErrorMessage, handleLoaderActive, handleSetUser, handleUserAuth, handleUserReg } from "../../redux/actions";
 

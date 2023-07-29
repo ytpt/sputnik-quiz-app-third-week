@@ -1,5 +1,5 @@
 const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: "./src/index.tsx",
@@ -13,21 +13,21 @@ module.exports = {
             {
                 test: /\.bundle\.ts$/,
                 use: {
-                    loader: 'bundle-loader',
+                    loader: "bundle-loader",
                     options: {
-                        name: '[name]'
+                        name: "[name]"
                     }
                 }
             },
             {
                 test: /\.tsx?$/,
-                use: 'ts-loader',
+                use: "ts-loader",
                 exclude: /node_modules/,
             },
             {
                 test: /\.(svg|png|gif|jpg)$/,
                 exclude: /fonts/,
-                loader: 'file-loader'
+                loader: "file-loader"
             },
             {
                 test: /\.(ttf|eot|woff|svg|woff2)$/,
@@ -35,24 +35,24 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: ['style-loader', 'css-loader'],
+                use: ["style-loader", "css-loader"],
             },
         ],
     },
     resolve: {
         alias: {
-            '~': path.resolve(__dirname, 'src')
+            "~": path.resolve(__dirname, "src")
         },
-        extensions: ['.tsx', '.ts', '.js', '.css']
+        extensions: [".tsx", ".ts", ".js", ".css"]
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: path.join(__dirname, 'src', 'index.html'),
+            template: path.join(__dirname, "src", "index.html"),
             favicon: "./src/assets/favicon.ico"
         })
     ],
     output: {
-        filename: '[name].js',
-        path: path.resolve(__dirname, 'dist'),
+        filename: "[name].js",
+        path: path.resolve(__dirname, "dist"),
     },
 };
